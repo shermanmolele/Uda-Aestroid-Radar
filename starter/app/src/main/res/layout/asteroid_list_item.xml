@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="astroid"
+            type="com.udacity.asteroidradar.Asteroid" />
+        <variable
+            name="clicklistener"
+            type="com.udacity.asteroidradar.main.AestroidListener" />
+
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:onClick="@{()-> clicklistener.onClick(astroid)}"
+    android:background="?selectableItemBackground">
+
+    <TextView
+        android:id="@+id/asteroid_item_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Asteroid Item"
+        android:textStyle="bold"
+        style="@style/Textview"/>
+
+    <TextView
+        android:id="@+id/asteroid_item_date"
+        app:layout_constraintTop_toBottomOf="@id/asteroid_item_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:textSize="14sp"
+        android:layout_height="wrap_content"
+        tools:text="1950-01-04"
+        style="@style/Textview"/>
+
+    <ImageView
+        android:id="@+id/asteroid_item_hazard_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Asteroid Item Test"
+        android:src="@drawable/ic_mood_selector"
+        android:contentDescription="Hazard Icon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
