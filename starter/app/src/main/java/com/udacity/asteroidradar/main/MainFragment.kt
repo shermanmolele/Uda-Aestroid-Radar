@@ -56,11 +56,10 @@ class MainFragment : Fragment(), ResourceBoundUI<List<Asteroid>> {
         viewModel.navigateToSelectedAsteroid.observe(viewLifecycleOwner, Observer { asteroid ->
             asteroid?.let {
                 this.findNavController().navigate(
-                    MainFragmentDirections.actionShowDetail(asteroid)
+                        MainFragmentDirections.actionShowDetail(asteroid)
                 )
             }
         })
-
     }
 
     override fun observeViewModel() {

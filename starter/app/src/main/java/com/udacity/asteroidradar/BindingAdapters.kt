@@ -14,8 +14,8 @@ fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
 }
 
 @BindingAdapter("asteroidStatusImage")
-fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
-    if (isHazardous) {
+fun bindDetailsStatusImage(imageView: ImageView, item: Asteroid?) {
+    if (item?.isPotentiallyHazardous == true) {
         imageView.setImageResource(R.drawable.asteroid_hazardous)
     } else {
         imageView.setImageResource(R.drawable.asteroid_safe)
@@ -23,19 +23,31 @@ fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
 }
 
 @BindingAdapter("astronomicalUnitText")
-fun bindTextViewToAstronomicalUnit(textView: TextView, number: Double) {
+fun bindTextViewToAstronomicalUnit(textView: TextView, item: Asteroid?) {
     val context = textView.context
-    textView.text = String.format(context.getString(R.string.astronomical_unit_format), number)
+    textView.text = String.format(context.getString(R.string.astronomical_unit_format), item?.absoluteMagnitude)
 }
 
 @BindingAdapter("kmUnitText")
-fun bindTextViewToKmUnit(textView: TextView, number: Double) {
+fun bindTextViewToKmUnit(textView: TextView,  item: Asteroid?) {
     val context = textView.context
-    textView.text = String.format(context.getString(R.string.km_unit_format), number)
+    textView.text = String.format(context.getString(R.string.km_unit_format), item?.estimatedDiameter)
 }
 
 @BindingAdapter("velocityText")
-fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
+fun bindTextViewToDisplayVelocity(textView: TextView,  item: Asteroid?) {
     val context = textView.context
-    textView.text = String.format(context.getString(R.string.km_s_unit_format), number)
+    textView.text = String.format(context.getString(R.string.km_s_unit_format), item?.relativeVelocity)
+}
+
+@BindingAdapter("distanceFromEarth")
+fun bindTextViewToDisplayDistance(textView: TextView,  item: Asteroid?) {
+    val context = textView.context
+    textView.text = String.format(context.getString(R.string.astronomical_unit_format), item?.distanceFromEarth)
+}
+
+@BindingAdapter("approachDate")
+fun bindTextViewToDisplayDate(textView: TextView,  item: Asteroid?) {
+    val context = textView.context
+    textView.text = item?.closeApproachDate
 }

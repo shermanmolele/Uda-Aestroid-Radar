@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.udacity.asteroidradar.Asteroid
 
@@ -19,4 +20,7 @@ interface AsteroidDao {
 
     @Query("DELETE FROM Asteroid")
     fun deleteAll()
+
+    @Query("SELECT * FROM Asteroid WHERE id = :key ")
+     fun getNightWithId(key: Long): LiveData<Asteroid>
 }
