@@ -45,13 +45,17 @@ class MainViewModel(applicationContext: Context) : ViewModel() {
         selectedAsteroid.value = item
     }
 
-    private val _navigateToSelectedProperty = MutableLiveData<Asteroid>()
+    private val _navigateToSelectedProperty = MutableLiveData<Long>()
 
-    val navigateToSelectedAsteroid: LiveData<Asteroid>
+        val navigateToSelectedAsteroid
         get() = _navigateToSelectedProperty
 
-    fun onAsteroidClicked(asteroid: List<Asteroid>){
-        _navigateToSelectedProperty.value = asteroid[0]
+    fun doneNavigating() {
+        _navigateToSelectedProperty.value = null
+    }
+
+    fun onAsteroidClicked(id: Long){
+        _navigateToSelectedProperty.value = id
     }
 
     /**

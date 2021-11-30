@@ -10,7 +10,6 @@
         <variable
             name="clicklistener"
             type="com.udacity.asteroidradar.main.AestroidListener" />
-
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,7 +50,7 @@
         android:layout_height="wrap_content"
         tools:text="Asteroid Item Test"
         android:src="@drawable/ic_mood_selector"
-        android:contentDescription="Hazard Icon" />
+        android:contentDescription="@string/hazard_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

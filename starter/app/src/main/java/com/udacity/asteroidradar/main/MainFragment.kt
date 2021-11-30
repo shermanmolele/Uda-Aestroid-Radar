@@ -2,11 +2,9 @@ package com.udacity.asteroidradar.main
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.Asteroid
@@ -14,7 +12,6 @@ import com.udacity.asteroidradar.PictureOfDay
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.ResourceBoundUI
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
-import com.udacity.asteroidradar.detail.DetailFragment
 import com.udacity.asteroidradar.utils.Status
 
 class MainFragment : Fragment(), ResourceBoundUI<List<Asteroid>> {
@@ -50,30 +47,20 @@ class MainFragment : Fragment(), ResourceBoundUI<List<Asteroid>> {
             viewModel.getFeed()
         }
 
-        binding.asteroidRecycler.adapter = AsteroidFeedAdapter(context, AestroidListener{ aestroidId ->
-                viewModel.onAsteroidClicked(asteroidFeed)
-            },
-            asteroidFeed) { pos ->
-            // select asteroid in view model,
-            viewModel.select(asteroidFeed[pos])
+        binding.asteroidRecycler.adapter =
+            AsteroidFeedAdapter(context, AestroidListener { aestroidId ->
+                viewModel.onAsteroidClicked(aestroidId)
+            }, asteroidFeed)
 
-         viewModel.navigateToSelectedAsteroid.observe(viewLifecycleOwner, Observer { asteroid ->
-             asteroid?.let {
-                 this.findNavController().navigate(
-                         MainFragmentDirections.actionShowDetail(asteroid))
-             }
-         })
 
-            val isTablet = resources.configuration.smallestScreenWidthDp > 600
-//            if (!isTablet) {
-//                activity?.supportFragmentManager
-//                    ?.beginTransaction()
-//                    ?.setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_open_exit)
-//                    ?.replace(R.id.fragment_container, DetailFragment())
-//                    ?.addToBackStack(TAG)
-//                    ?.commit()
- //           }
-        }
+        viewModel.navigateToSelectedAsteroid.observe(viewLifecycleOwner, Observer { asteroid ->
+            asteroid?.let {
+                this.findNavController().navigate(
+                    MainFragmentDirections.actionShowDetail(asteroid)
+                )
+            }
+        })
+
     }
 
     override fun observeViewModel() {
@@ -122,9 +109,10 @@ class MainFragment : Fragment(), ResourceBoundUI<List<Asteroid>> {
     private fun bindPictureOfDay(data: PictureOfDay) {
         binding.activityMainImageOfTheDay.contentDescription = getString(
             R.string.nasa_picture_of_day_content_description_format,
-            data.title)
+            data.title
+        )
 
-       // binding.mainPicDayTitle.text = data.title
+        // binding.mainPicDayTitle.text = data.title
 
         Picasso.with(context)
             .load(data.url)

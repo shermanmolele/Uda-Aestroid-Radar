@@ -21,8 +21,8 @@
         tools:layout="@layout/fragment_detail">
 
         <argument
-            android:name="selectedAsteroid"
-            app:argType="com.udacity.asteroidradar.Asteroid"/>
+            android:name="selectedAsteroid_key"
+            app:argType="long"/>
     </fragment>
 
 </navigation>
