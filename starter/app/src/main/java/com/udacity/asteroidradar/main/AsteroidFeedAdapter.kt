@@ -1,56 +1,54 @@
 package com.udacity.asteroidradar.main
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.udacity.asteroidradar.Asteroid
-import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.AsteroidListItemBinding
 
 /**
  * Asteroid Feed Adapter.
  */
-class AsteroidFeedAdapter(private val context: Context?,
-                          val clickListener: AestroidListener,
-                          private val asteroids: List<Asteroid>) : RecyclerView.Adapter<AsteroidViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsteroidViewHolder {
-        return AsteroidViewHolder.from(parent)
+class AsteroidFeedAdapter(
+    private val clickListener: AsteroidListener
+) :
+    ListAdapter<Asteroid, AsteroidFeedAdapter.AsteroidViewHolder>(DiffCallback) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
+            : AsteroidViewHolder {
+        val view =
+            AsteroidListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return AsteroidViewHolder(view)
     }
 
-    override fun getItemCount() = asteroids.size
 
     override fun onBindViewHolder(holder: AsteroidViewHolder, position: Int) {
-        val asteroid = asteroids[position]
-        holder.bind(clickListener, asteroid)
-    }
-}
-
-class AsteroidViewHolder(val binding: AsteroidListItemBinding)
-    : RecyclerView.ViewHolder(binding.root) {
-
-    fun bind(clickListener: AestroidListener, item: Asteroid) {
-        binding.astroid = item
-        binding.asteroidItemName.text = item.codename
-        binding.asteroidItemDate.text = item.closeApproachDate
-        binding.asteroidItemHazardIcon.isSelected = item.isPotentiallyHazardous
-        binding.asteroidItemHazardIcon.contentDescription =  if (item.isPotentiallyHazardous)
-        {R.string.hazard_icon_content_desc.toString()}
-        else {R.string.non_hazard_icon_content_desc.toString() }
-        binding.clicklistener = clickListener
-        binding.executePendingBindings()
+        val asteroid = getItem(position)
+        holder.bind(clickListener, asteroid!!)
     }
 
-    companion object {
-        fun from(parent: ViewGroup): AsteroidViewHolder {
-            val layoutInflater = LayoutInflater.from(parent.context)
-            val binding = AsteroidListItemBinding.inflate(layoutInflater, parent, false)
+    class AsteroidViewHolder(private var binding: AsteroidListItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-            return AsteroidViewHolder(binding)
+        fun bind(clickListener: AsteroidListener, item: Asteroid) {
+            binding.asteroidItem = item
+            binding.clicklistener = clickListener
+            binding.executePendingBindings()
         }
     }
-}
 
-class AestroidListener(val clickListener: (aestroidId : Long) -> Unit){
-    fun onClick(aestroid: Asteroid) = clickListener(aestroid.id)
+    class AsteroidListener(val clickListener: (asteroid: Asteroid) -> Unit) {
+        fun onClick(asteroid: Asteroid) = clickListener(asteroid)
+    }
+
+    companion object DiffCallback : DiffUtil.ItemCallback<Asteroid>() {
+        override fun areItemsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
+            return oldItem == newItem
+        }
+    }
 }

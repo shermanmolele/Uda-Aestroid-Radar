@@ -7,37 +7,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.udacity.asteroidradar.R
-import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.databinding.FragmentDetailBinding
 
 class DetailFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
+        val binding = FragmentDetailBinding.inflate(inflater)
+        binding.lifecycleOwner = this
 
-        val binding: FragmentDetailBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false)
+        val asteroid = DetailFragmentArgs.fromBundle(requireArguments()).selectedAsteroid
 
-        val application = requireNotNull(this.activity).application
-        val arguments = DetailFragmentArgs.fromBundle(requireArguments())
+        binding.asteroid = asteroid
 
-        val dataSource = AsteroidDatabase.getInstance(application).asteroidDao()
-        val viewModelFactory = DetailViewModelFactory(arguments.selectedAsteroidKey, dataSource)
-
-        val detailViewModel =
-        ViewModelProvider(
-            this, viewModelFactory).get(DetailViewModel::class.java)
-
-       binding.asteroidDetailViewModel = detailViewModel
         binding.helpButton.setOnClickListener {
             displayAstronomicalUnitExplanationDialog()
         }
-        binding.lifecycleOwner = this
+
         return binding.root
     }
 

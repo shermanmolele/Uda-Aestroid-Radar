@@ -12,7 +12,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/app_background">
 
         <FrameLayout
             android:id="@+id/activity_main_image_of_the_day_layout"
@@ -28,6 +29,8 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
+                android:contentDescription="@string/image_of_the_day"
+                app:pictureOfDay="@{viewModel.pictureOfDay}"
                 app:srcCompat="@drawable/placeholder_picture_of_day"/>
 
             <TextView
@@ -61,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="No asteroids yet"
+            android:text="@string/no_asteroids_yet"
             style="@style/Textview"
             android:gravity="center"
             android:padding="@dimen/padding_medium"
@@ -73,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Error loading feed"
+            android:text="@string/error_loading_feed"
             style="@style/Textview"
             android:gravity="center"
             android:padding="16dp"

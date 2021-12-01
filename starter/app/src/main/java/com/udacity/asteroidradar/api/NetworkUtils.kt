@@ -1,18 +1,19 @@
 package com.udacity.asteroidradar.api
 
-import com.udacity.asteroidradar.Asteroid
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.udacity.asteroidradar.Constants
+import com.udacity.asteroidradar.network.NetworkAsteroid
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
+fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<NetworkAsteroid> {
     val nearEarthObjectsJson = jsonResult.getJSONObject("near_earth_objects")
-
-    val asteroidList = ArrayList<Asteroid>()
-
+    val asteroidList = ArrayList<NetworkAsteroid>()
     val nextSevenDaysFormattedDates = getNextSevenDaysFormattedDates()
+
     for (formattedDate in nextSevenDaysFormattedDates) {
         val dateAsteroidJsonArray = nearEarthObjectsJson.getJSONArray(formattedDate)
 
@@ -33,16 +34,18 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
             val isPotentiallyHazardous = asteroidJson
                 .getBoolean("is_potentially_hazardous_asteroid")
 
-            val asteroid = Asteroid(id, codename, formattedDate, absoluteMagnitude,
-                estimatedDiameter, relativeVelocity, distanceFromEarth, isPotentiallyHazardous)
+            val asteroid = NetworkAsteroid(
+                id, codename, formattedDate, absoluteMagnitude,
+                estimatedDiameter, relativeVelocity, distanceFromEarth, isPotentiallyHazardous
+            )
             asteroidList.add(asteroid)
         }
     }
-
     return asteroidList
 }
 
-private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
+@RequiresApi(Build.VERSION_CODES.N)
+fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     val formattedDateList = ArrayList<String>()
 
     val calendar = Calendar.getInstance()
@@ -52,6 +55,5 @@ private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
         formattedDateList.add(dateFormat.format(currentTime))
         calendar.add(Calendar.DAY_OF_YEAR, 1)
     }
-
     return formattedDateList
 }

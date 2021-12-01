@@ -22,4 +22,6 @@
     <string name="hazard_icon_content_desc">Hazard Icon</string>
     <string name="non_hazard_icon_content_desc">Non Hazard Icon</string>
     <string name="hazard_icon">Hazard Icon</string>
+    <string name="error_loading_feed">Error loading feed</string>
+    <string name="no_asteroids_yet">No asteroids yet</string>
 </resources>

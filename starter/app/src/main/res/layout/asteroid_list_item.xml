@@ -5,19 +5,19 @@
 
     <data>
         <variable
-            name="astroid"
+            name="asteroidItem"
             type="com.udacity.asteroidradar.Asteroid" />
         <variable
             name="clicklistener"
-            type="com.udacity.asteroidradar.main.AestroidListener" />
+            type="com.udacity.asteroidradar.main.AsteroidFeedAdapter.AsteroidListener" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:onClick="@{()-> clicklistener.onClick(astroid)}"
-    android:background="?selectableItemBackground">
+    android:onClick="@{()-> clicklistener.onClick(asteroidItem)}"
+    android:background="@color/app_background">
 
     <TextView
         android:id="@+id/asteroid_item_name"
@@ -26,9 +26,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="Asteroid Item"
+        android:text="@{asteroidItem.codename}"
         android:textStyle="bold"
-        style="@style/Textview"/>
+        style="@style/TextAppearance.Asteroid"/>
 
     <TextView
         android:id="@+id/asteroid_item_date"
@@ -36,10 +36,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
+        android:text="@{asteroidItem.closeApproachDate}"
         android:textSize="14sp"
         android:layout_height="wrap_content"
         tools:text="1950-01-04"
-        style="@style/Textview"/>
+        style="@style/TextAppearance.Date"/>
 
     <ImageView
         android:id="@+id/asteroid_item_hazard_icon"
@@ -50,7 +51,8 @@
         android:layout_height="wrap_content"
         tools:text="Asteroid Item Test"
         android:src="@drawable/ic_mood_selector"
-        android:contentDescription="@string/hazard_icon" />
+        app:statusIcon="@{asteroidItem.potentiallyHazardous}"
+        android:contentDescription="@{asteroidItem.codename}" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
